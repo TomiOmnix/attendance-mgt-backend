@@ -6,31 +6,6 @@ const app = express();
 
 app.use(express.json());
 
-// const db = createConnection({
-//   host: process.env.HOST,
-//   user: "root",
-//   password: process.env.PASSWORD,
-//   database: process.env.DATABASE,
-//   connectionLimit: 10,
-// });
-
-// const db = createConnection({
-//   host: "sql.freedb.tech",
-//   user: "freedb_tominiyi",
-//   password: "wmjX3aj!2W!HyPB",
-//   database: "freedb_attendanceManagement",
-//  connectionLimit: 10,
-// });
-
-// db.connect((error) => {
-//   if (error) {
-//     console.error("Error connecting to MySQL database: ", error);
-//     return;
-//   }
-
-//   console.log("Connected to MySQL database!");
-// });
-
 const db = createPool({
   host: process.env.HOST,
   user: process.env.USERDB,
