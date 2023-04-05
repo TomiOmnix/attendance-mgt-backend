@@ -1,24 +1,20 @@
 const express = require("express");
-const { createConnection, createPool } = require("mysql");
+const { createPool } = require("mysql");
+const cors = require("cors");
 require("dotenv").config();
+const db = require("./utils/database");
 
 const app = express();
-
-app.use(express.json());
-
-const db = createPool({
-  host: process.env.HOST,
-  user: process.env.USERDB,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
-  connectionLimit: 10,
-});
 
 db.getConnection((err, connection) => {
   if (err) throw err;
   console.log("Database connected successfully");
   connection.release();
 });
+
+app.use(express.json());
+
+app.use(cors());
 
 app.get("/api/parent", (req, res) => {
   let readQuery = `select * from parent where status = 0`;
