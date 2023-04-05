@@ -60,7 +60,7 @@ const createParent = async (req, res, next) => {
         return res.status(500).json({ success: false, message: "Internal server error" });
       }
       if (result.length > 0) {
-        return res.status(400).json({ success: false, message: "Phone number already exists" });
+        return res.status(400).json({ success: false, message: "Parent with this phone number already exists" });
       }
 
       let insertQuery = `INSERT INTO parent (id,title, first_name, last_name, phone, status, date) 
