@@ -5,7 +5,6 @@ const db = require("../database");
 const lookUP = (table, fields = "*", conditions = "") => {
   const condition = conditions ? `WHERE ${conditions}` : "";
   const query = `SELECT ${fields} FROM ${table} ${condition}`;
-
   return new Promise((resolve, reject) => {
     db.query(query, (err, result) => {
       return err ? reject(err) : resolve(result);
@@ -32,7 +31,6 @@ const save = (table, fields, value, identifier) => {
 
 const saveChanges = (table, value, condition) => {
   const query = `UPDATE ${table} SET ${value} WHERE ${condition}`;
-
   return new Promise((resolve, reject) => {
     db.query(query, (err, result) => {
       return err ? reject(err) : resolve(result);

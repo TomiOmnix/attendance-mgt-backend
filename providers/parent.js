@@ -31,6 +31,10 @@ const parentTitle = (id) => {
   return singleParentInfo(id, "title");
 };
 
+const existingPhoneNumber = (phone) => {
+  return parentInfo(`phone = '${phone}'`);
+};
+
 const saveParent = (arg) => {
   const { first_name, last_name, title, phone } = arg;
   const parent_identifier = identifier("prt");
@@ -59,4 +63,5 @@ module.exports = {
   parentTitle,
   singleParentInfo,
   removeParent,
+  existingPhoneNumber,
 };
