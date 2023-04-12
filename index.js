@@ -4,6 +4,7 @@ require("dotenv").config();
 const db = require("./utils/database");
 const parentRoute = require("./routes/parent");
 const childRoute = require("./routes/child");
+const childLogRoute = require("./routes/childLog");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use("/api", parentRoute);
 app.use("/api", childRoute);
+app.use("/api", childLogRoute);
 
 let port = process.env.PORT || 6000;
 
