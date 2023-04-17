@@ -5,11 +5,14 @@ let moment = require("moment");
 
 const fetchChildLog = async (req, res, next) => {
   try {
+    const logDate = req.params.logDate;
+    const dt = logDate ? logDate : moment().format("YYYY-MM-DD");
+
     let result = await findAllChildren();
     let arr = [];
 
     for (let r of result) {
-      let chkTag = await fetchChildByLogDate(r.id, moment().format("YYYY-MM-DD"));
+      let chkTag = await fetchChildByLogDate(r.id, dt);
       arr.push({ child_id: r.id, parent_id: r.parent_id, first_name: r.first_name, last_name: r.last_name, tag: chkTag.length > 0 ? chkTag[0].tag : "" });
     }
     res.status(200).json({ success: true, data: arr });
