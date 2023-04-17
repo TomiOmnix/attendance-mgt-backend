@@ -25,7 +25,7 @@ const createChildLog = async (req, res, next) => {
   try {
     const { childId, parentId, tag, logDate } = req.body;
 
-    if (!childId || !tag || !parentId || logDate) {
+    if (!childId || !tag || !parentId || !logDate) {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
