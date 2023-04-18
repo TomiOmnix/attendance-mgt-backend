@@ -1,11 +1,20 @@
 const { findAllChildren } = require("../providers/child");
 const { fetchChildByLogDate, saveChildLog, editChildLog } = require("../providers/childLog");
+const { checkValidDate } = require("../helper/helperFunctions");
 const db = require("../utils/database");
 let moment = require("moment");
 
 const fetchChildLog = async (req, res, next) => {
   try {
     const logDate = req.params.logDate;
+
+    if (logDate) {
+      let validDate = checkValidDate(logDate);
+      if (!validDate) {
+        return res.status(400).json({ success: false, message: "Log date format is invalid!" });
+      }
+    }
+
     const dt = logDate ? logDate : moment().format("YYYY-MM-DD");
 
     let result = await findAllChildren();
@@ -32,6 +41,11 @@ const createChildLog = async (req, res, next) => {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
+    let validDate = checkValidDate(logDate);
+    if (!validDate) {
+      return res.status(400).json({ success: false, message: "Log date format is invalid!" });
+    }
+
     let existChildLog = await fetchChildByLogDate(childId, logDate ? logDate : moment().format("YYYY-MM-DD"));
     if (existChildLog.length > 0) {
       return res.status(400).json({ success: false, message: "This child log already exists" });
@@ -56,6 +70,11 @@ const updateChildLog = async (req, res, next) => {
     }
     if (!logDate) {
       return res.status(400).json({ success: false, message: "All fields are required" });
+    }
+
+    let validDate = checkValidDate(logDate);
+    if (!validDate) {
+      return res.status(400).json({ success: false, message: "Log date format is invalid!" });
     }
 
     let existChildLog = await fetchChildByLogDate(childId, logDate ? logDate : moment().format("YYYY-MM-DD"));
