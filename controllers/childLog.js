@@ -46,6 +46,14 @@ const createChildLog = async (req, res, next) => {
       return res.status(400).json({ success: false, message: "Log date format is invalid!" });
     }
 
+    if (logDate > moment().format("YYYY-MM-DD")) {
+      return res.status(400).json({ success: false, message: "You can not save child tag on a future date" });
+    }
+
+    if (logDate < moment().format("YYYY-MM-DD")) {
+      return res.status(400).json({ success: false, message: "You can not save child tag on previous dates" });
+    }
+
     let existChildLog = await fetchChildByLogDate(childId, logDate ? logDate : moment().format("YYYY-MM-DD"));
     if (existChildLog.length > 0) {
       return res.status(400).json({ success: false, message: "This child log already exists" });
@@ -75,6 +83,10 @@ const updateChildLog = async (req, res, next) => {
     let validDate = checkValidDate(logDate);
     if (!validDate) {
       return res.status(400).json({ success: false, message: "Log date format is invalid!" });
+    }
+
+    if (logDate < moment().format("YYYY-MM-DD")) {
+      return res.status(400).json({ success: false, message: "You can not perform reverse tag action on previous dates" });
     }
 
     let existChildLog = await fetchChildByLogDate(childId, logDate ? logDate : moment().format("YYYY-MM-DD"));
