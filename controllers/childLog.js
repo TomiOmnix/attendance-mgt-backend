@@ -22,7 +22,7 @@ const fetchChildLog = async (req, res, next) => {
 
     for (let r of result) {
       let chkTag = await fetchChildByLogDate(r.id, dt);
-      arr.push({ child_id: r.id, parent_id: r.parent_id, first_name: r.first_name, last_name: r.last_name, tag: chkTag.length > 0 ? chkTag[0].tag : "" });
+      arr.push({ child_id: r.id, parent_id: r.parent_id, first_name: r.first_name, last_name: r.last_name, tag: chkTag.length > 0 ? chkTag[0].tag : "", gender: r.gender });
     }
     res.status(200).json({ success: true, data: arr });
   } catch (err) {
