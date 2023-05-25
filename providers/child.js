@@ -2,8 +2,18 @@ const { initStatus } = require("../helper/constant/InitStatus");
 const { identifier } = require("../helper/helperFunctions");
 const { childModel } = require("../models/child");
 
-const childInfo = (conditions = "", fields = "*") => {
-  return childModel.info(conditions, fields);
+// const childInfo = (conditions = "", fields = "*") => {
+//   return childModel.info(conditions, fields);
+// };
+
+const childInfo = () => {
+  return childModel.rawSQL(`SELECT *, FLOOR(DATEDIFF(CURDATE(), d_o_b) / 365) AS age, CONCAT(DATE_FORMAT(date, '%Y-%m-%d'), ' ', time) AS registered_date
+  FROM (
+    SELECT *
+    FROM children
+    WHERE status = '0'
+  ) AS subquery;
+  `);
 };
 
 const findAllChildren = () => {
@@ -41,15 +51,15 @@ const existingChild = (arg) => {
 };
 
 const saveChild = (arg) => {
-  const { first_name, last_name, parent_id, gender, d_o_b } = arg;
+  const { first_name, last_name, parent_id, gender, d_o_b, address } = arg;
   const child_identifier = identifier("chd");
-  const values = `'${parent_id}','${first_name}','${last_name}','${gender}','${d_o_b}'`;
+  const values = `'${parent_id}','${first_name}','${last_name}','${gender}','${d_o_b}','${address}'`;
   childModel.save(values, child_identifier);
 };
 
 const editChild = (arg) => {
-  const { id, first_name, last_name, parent_id, gender, d_o_b } = arg;
-  childModel.saveChanges(`id='${id}'`, `first_name='${first_name}' ,last_name='${last_name}', parent_id='${parent_id}', gender='${gender}', d_o_b = '${d_o_b}'`);
+  const { id, first_name, last_name, parent_id, gender, d_o_b, address } = arg;
+  childModel.saveChanges(`id='${id}'`, `first_name='${first_name}' ,last_name='${last_name}', parent_id='${parent_id}', gender='${gender}', d_o_b = '${d_o_b}', address = '${address}'`);
 };
 
 const removeChild = (arg) => {

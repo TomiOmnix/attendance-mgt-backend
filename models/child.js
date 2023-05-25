@@ -8,7 +8,11 @@ module.exports.childModel = {
     return lookUP(tbl.CHILDREN, fields, `${condition} status = '${initStatus.status}'`);
   },
 
-  save: (values, identifier) => save(tbl.CHILDREN, "parent_id, first_name, last_name, gender, d_o_b", values, identifier),
+  rawSQL: (query) => {
+    return lookUP(tbl.CHILDREN, "*", "", query);
+  },
+
+  save: (values, identifier) => save(tbl.CHILDREN, "parent_id, first_name, last_name, gender, d_o_b, address", values, identifier),
 
   erase: (conditions, values) => erase(tbl.CHILDREN, values, `${conditions}`),
 

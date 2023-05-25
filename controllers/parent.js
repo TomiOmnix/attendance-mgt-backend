@@ -4,6 +4,7 @@ const db = require("../utils/database");
 const fetchParents = async (req, res, next) => {
   try {
     let result = await findAllParents();
+
     res.status(200).json({ success: true, data: result });
   } catch (err) {
     if (err) {

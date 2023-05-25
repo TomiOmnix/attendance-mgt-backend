@@ -2,8 +2,18 @@ const { initStatus } = require("../helper/constant/InitStatus");
 const { identifier } = require("../helper/helperFunctions");
 const { parentModel } = require("../models/parent");
 
-const parentInfo = (conditions = "", fields = "*") => {
-  return parentModel.info(conditions, fields);
+// const parentInfo = (conditions = "", fields = "*") => {
+//   return parentModel.info(conditions, fields);
+// };
+const parentInfo = () => {
+  return parentModel.rawSQL(`SELECT parent.*, (
+    SELECT COUNT(*)
+    FROM children
+    WHERE parent.phone = children.parent_id
+) AS no_of_children, CONCAT(DATE_FORMAT(date, '%Y-%m-%d'), ' ', time) AS registered_date
+FROM parent
+WHERE parent.status = '0';
+`);
 };
 
 const findAllParents = () => {

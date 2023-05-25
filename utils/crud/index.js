@@ -2,9 +2,9 @@ let moment = require("moment");
 const { initStatus } = require("../../helper/constant/InitStatus");
 const db = require("../database");
 
-const lookUP = (table, fields = "*", conditions = "") => {
+const lookUP = (table, fields = "*", conditions = "", raw = "") => {
   const condition = conditions ? `WHERE ${conditions}` : "";
-  const query = `SELECT ${fields} FROM ${table} ${condition}`;
+  const query = raw != "" ? raw : `SELECT ${fields} FROM ${table} ${condition}`;
   return new Promise((resolve, reject) => {
     db.query(query, (err, result) => {
       return err ? reject(err) : resolve(result);

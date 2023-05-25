@@ -8,6 +8,10 @@ module.exports.parentModel = {
     return lookUP(tbl.PARENT, fields, `${condition} status = '${initStatus.status}'`);
   },
 
+  rawSQL: (query) => {
+    return lookUP(tbl.PARENT, "*", "", query);
+  },
+
   save: (values, identifier) => save(tbl.PARENT, "title, first_name, last_name, phone", values, identifier),
 
   erase: (conditions, values) => erase(tbl.PARENT, values, `${conditions}`),

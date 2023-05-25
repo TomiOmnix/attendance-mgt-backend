@@ -7,7 +7,6 @@ const fetchChildren = async (req, res, next) => {
     res.status(200).json({ success: true, data: result });
   } catch (err) {
     if (err) {
-      console.error(err);
       return res.status(500).json({ success: false, message: "Internal server error!" });
     }
   }
@@ -36,7 +35,7 @@ const fetchChild = async (req, res, next) => {
 
 const createChild = async (req, res, next) => {
   try {
-    const { firstName, lastName, parentId, gender, dob } = req.body;
+    const { firstName, lastName, parentId, gender, dob, address } = req.body;
 
     if (!gender || !firstName || !lastName || !parentId || !dob) {
       return res.status(400).json({ success: false, message: "All fields are required" });
@@ -47,7 +46,7 @@ const createChild = async (req, res, next) => {
       return res.status(400).json({ success: false, message: "Child with this parent id already exists" });
     }
 
-    saveChild({ first_name: firstName, last_name: lastName, gender, parent_id: parentId, d_o_b: dob });
+    saveChild({ first_name: firstName, last_name: lastName, gender, parent_id: parentId, d_o_b: dob, address: address ? address : "" });
     res.status(201).json({ success: true, message: "Child successfully created", data: { gender, firstName, lastName, parentId, dob } });
   } catch (err) {
     if (err) {
@@ -59,7 +58,7 @@ const createChild = async (req, res, next) => {
 
 const updateChild = async (req, res, next) => {
   try {
-    const { firstName, lastName, parentId, gender, dob } = req.body;
+    const { firstName, lastName, parentId, gender, dob, address } = req.body;
     const childId = req.params.id;
     if (!gender || !firstName || !lastName || !parentId || !dob) {
       return res.status(400).json({ success: false, message: "All fields are required" });
@@ -72,7 +71,7 @@ const updateChild = async (req, res, next) => {
       return res.status(404).json({ success: false, message: "This child Id does not exist!" });
     }
 
-    await editChild({ id: childId, gender, first_name: firstName, last_name: lastName, d_o_b: dob, parent_id: parentId });
+    await editChild({ id: childId, gender, address, first_name: firstName, last_name: lastName, d_o_b: dob, parent_id: parentId });
     res.status(200).json({ success: true, message: "Child successfully updated", data: { id: childId, gender, firstName, lastName, dob, gender } });
   } catch (err) {
     if (err) {
