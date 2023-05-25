@@ -10,7 +10,7 @@ const parentInfo = () => {
     SELECT COUNT(*)
     FROM children
     WHERE parent.phone = children.parent_id
-) AS no_of_children, CONCAT(DATE_FORMAT(date, '%Y-%m-%d'), ' ', time) AS registered_date
+) AS no_of_children
 FROM parent
 WHERE parent.status = '0';
 `);

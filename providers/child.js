@@ -7,7 +7,7 @@ const { childModel } = require("../models/child");
 // };
 
 const childInfo = () => {
-  return childModel.rawSQL(`SELECT *, FLOOR(DATEDIFF(CURDATE(), d_o_b) / 365) AS age, CONCAT(DATE_FORMAT(date, '%Y-%m-%d'), ' ', time) AS registered_date
+  return childModel.rawSQL(`SELECT *, FLOOR(DATEDIFF(CURDATE(), d_o_b) / 365) AS age
   FROM (
     SELECT *
     FROM children
@@ -15,6 +15,8 @@ const childInfo = () => {
   ) AS subquery;
   `);
 };
+
+//CONCAT(DATE_FORMAT(date, '%Y-%m-%d'), ' ', time) AS registered_date
 
 const findAllChildren = () => {
   return childInfo();
