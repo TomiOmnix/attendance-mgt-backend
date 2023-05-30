@@ -1,4 +1,5 @@
 const { saveParent, findAllParents, singleParentInfo, updateParents, removeParent, existingPhoneNumber } = require("../providers/parent");
+const { fetchChildrenList } = require("../providers/child");
 const db = require("../utils/database");
 
 const fetchParents = async (req, res, next) => {
@@ -25,7 +26,11 @@ const fetchParent = async (req, res, next) => {
     if (result.length == 0) {
       return res.status(404).json({ success: false, message: "This parent id doesnt exist!" });
     } else {
-      res.status(200).json({ success: true, data: result });
+      console.log({ result });
+      let obj = result[0];
+      let childrenList = await fetchChildrenList(obj.phone);
+
+      res.status(200).json({ success: true, data: { ...obj, full_name: obj.first_name + " " + obj.last_name, children_list: childrenList } });
     }
   } catch (err) {
     if (err) {

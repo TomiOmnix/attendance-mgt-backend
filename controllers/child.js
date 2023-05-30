@@ -47,7 +47,7 @@ const createChild = async (req, res, next) => {
     }
 
     saveChild({ first_name: firstName, last_name: lastName, gender, parent_id: parentId, d_o_b: dob, address: address ? address : "" });
-    res.status(201).json({ success: true, message: "Child successfully created", data: { gender, firstName, lastName, parentId, dob } });
+    res.status(201).json({ success: true, message: "Child successfully created", data: { gender, firstName, lastName, parentId, dob, address } });
   } catch (err) {
     if (err) {
       console.error(err);

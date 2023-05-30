@@ -6,11 +6,11 @@ const { parentModel } = require("../models/parent");
 //   return parentModel.info(conditions, fields);
 // };
 const parentInfo = () => {
-  return parentModel.rawSQL(`SELECT parent.*, (
+  return parentModel.rawSQL(`SELECT parent.*,  (
     SELECT COUNT(*)
     FROM children
     WHERE parent.phone = children.parent_id
-) AS no_of_children
+) AS no_of_children, CONCAT(DATE_FORMAT(date, '%Y-%m-%d'), ' ', time) AS registered_date
 FROM parent
 WHERE parent.status = '0';
 `);

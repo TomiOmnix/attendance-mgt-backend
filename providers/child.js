@@ -2,11 +2,11 @@ const { initStatus } = require("../helper/constant/InitStatus");
 const { identifier } = require("../helper/helperFunctions");
 const { childModel } = require("../models/child");
 
-// const childInfo = (conditions = "", fields = "*") => {
-//   return childModel.info(conditions, fields);
-// };
+const childInfo = (conditions = "", fields = "*") => {
+  return childModel.info(conditions, fields);
+};
 
-const childInfo = () => {
+const childInfoRaw = () => {
   return childModel.rawSQL(`SELECT *, FLOOR(DATEDIFF(CURDATE(), d_o_b) / 365) AS age
   FROM (
     SELECT *
@@ -19,7 +19,7 @@ const childInfo = () => {
 //CONCAT(DATE_FORMAT(date, '%Y-%m-%d'), ' ', time) AS registered_date
 
 const findAllChildren = () => {
-  return childInfo();
+  return childInfoRaw();
 };
 
 const singleChildInfo = (id, fields = "*") => {
@@ -45,6 +45,10 @@ const childGender = (id) => {
 
 const childDob = (id) => {
   return singleChildInfo(id, "d_o_b");
+};
+
+const fetchChildrenList = (parentId) => {
+  return childInfo(`parent_id = '${parentId}' AND status = '${initStatus.status}'`);
 };
 
 const existingChild = (arg) => {
@@ -82,4 +86,5 @@ module.exports = {
   childPhoneNumber,
   singleChildInfo,
   existingChild,
+  fetchChildrenList,
 };
