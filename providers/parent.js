@@ -9,7 +9,7 @@ const parentInfo = () => {
   return parentModel.rawSQL(`SELECT parent.*,  (
     SELECT COUNT(*)
     FROM children
-    WHERE parent.phone = children.parent_id
+    WHERE parent.phone = children.parent_id AND children.status = '0'
 ) AS no_of_children, CONCAT(DATE_FORMAT(date, '%Y-%m-%d'), ' ', time) AS registered_date
 FROM parent
 WHERE parent.status = '0';
