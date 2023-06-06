@@ -48,7 +48,10 @@ const createParent = async (req, res, next) => {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
+    console.log({ title, firstName, lastName, phone });
+
     let existingphone = await existingPhoneNumber(phone);
+    console.log({ existingphone });
     if (existingphone.length > 0) {
       return res.status(400).json({ success: false, message: "Parent with this phone number already exists" });
     }

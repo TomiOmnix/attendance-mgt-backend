@@ -2,10 +2,10 @@ const { initStatus } = require("../helper/constant/InitStatus");
 const { identifier } = require("../helper/helperFunctions");
 const { parentModel } = require("../models/parent");
 
-// const parentInfo = (conditions = "", fields = "*") => {
-//   return parentModel.info(conditions, fields);
-// };
-const parentInfo = () => {
+const parentInfo = (conditions = "", fields = "*") => {
+  return parentModel.info(conditions, fields);
+};
+const parentInfoRaw = () => {
   return parentModel.rawSQL(`SELECT parent.*,  (
     SELECT COUNT(*)
     FROM children
@@ -17,7 +17,7 @@ WHERE parent.status = '0';
 };
 
 const findAllParents = () => {
-  return parentInfo();
+  return parentInfoRaw();
 };
 
 const singleParentInfo = (id, fields = "*") => {
